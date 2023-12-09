@@ -36,13 +36,13 @@ def convert_to_m3u8(request):
     _480p  = Representation(Size(854, 480), Bitrate(750 * 1024, 192 * 1024))
     _720p  = Representation(Size(1280, 720), Bitrate(2048 * 1024, 320 * 1024))
     _1080p  = Representation(Size(1920, 1080), Bitrate(3096 * 1024, 720 * 1024))
-    video = ffmpeg_streaming.input(unquote(request.POST.get('url')))
+    video = ffmpeg_streaming.input("https://storage.googleapis.com/kiou_lesson/Videos/stock_59f3ceea8712bb27b9a15fe9a03d6479.mp4")
     hls = video.hls(Formats.h264())
     hls.representations(_360p, _480p, _720p, _1080p)
     
     # hls.output('./convertVideo/media/output/'+request.FILES["video"].name+'.m3u8',monitor= demo)
     # hls.output('./convertVideo/media/output/'+request.FILES["video"].name+'.m3u8')
-    hls.output('./convertVideo/media/output/'+request.POST.get('name')+'.m3u8')
+    hls.output('./convertVideo/media/output/tunkitne.m3u8')
     folder_path = './convertVideo/media/output/'
 
 # Get a list of all files in the folder
