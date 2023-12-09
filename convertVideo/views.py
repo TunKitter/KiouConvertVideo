@@ -42,7 +42,7 @@ def convert_to_m3u8(request):
     
     # hls.output('./convertVideo/media/output/'+request.FILES["video"].name+'.m3u8',monitor= demo)
     # hls.output('./convertVideo/media/output/'+request.FILES["video"].name+'.m3u8')
-    hls.output('.tunkitne.m3u8')
+    hls.output('tunkitne.m3u8')
     folder_path = './convertVideo/media/output/'
 
 # Get a list of all files in the folder
