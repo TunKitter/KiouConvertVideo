@@ -1,0 +1,1 @@
+web gunicorn KiouSubtitle.wsgi:application --log-file -
