@@ -8,6 +8,7 @@ import os
 from google.cloud import storage
 from django.views.decorators.csrf import csrf_exempt
 from urllib.parse import unquote
+from ffmpeg_streaming import  GCS, CloudManager
 hihi = '__'
 def upload_to_gcs(bucket_name, source_file_path, destination_blob_name, credentials_file):
     # Initialize the Google Cloud Storage client with the credentials
@@ -36,13 +37,16 @@ def convert_to_m3u8(request):
     _480p  = Representation(Size(854, 480), Bitrate(750 * 1024, 192 * 1024))
     _720p  = Representation(Size(1280, 720), Bitrate(2048 * 1024, 320 * 1024))
     _1080p  = Representation(Size(1920, 1080), Bitrate(3096 * 1024, 720 * 1024))
+    os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "kiou_bucket_key.json"
     video = ffmpeg_streaming.input(unquote(request.POST.get('url')))
     hls = video.hls(Formats.h264())
     hls.representations(_360p, _480p, _720p, _1080p)
     
     # hls.output('./convertVideo/media/output/'+request.FILES["video"].name+'.m3u8',monitor= demo)
     # hls.output('./convertVideo/media/output/'+request.FILES["video"].name+'.m3u8')
-    hls.output('./convertVideo/media/output/'+request.POST.get('name')+'.m3u8')
+    gcs = GCS()
+    save_to_gcs = CloudManager().add(gcs,bucket_name="kiou_lesson",folder="stream")
+    hls.output(clouds=save_to_gcs)
     folder_path = './convertVideo/media/output/'
 
 # Get a list of all files in the folder
