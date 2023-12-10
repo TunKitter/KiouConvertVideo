@@ -12,7 +12,6 @@ def create_job_from_preset(
     output_uri: str,
 ) -> transcoder_v1.types.resources.Job:
     client = TranscoderServiceClient()
-    client.from_service_account_json("kiou_bucket_key.json")
     project_id = "essential-text-394715"
     location = "us-central1"
     parent = f"projects/{project_id}/locations/{location}"
